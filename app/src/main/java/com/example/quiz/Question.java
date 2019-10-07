@@ -8,15 +8,18 @@ public class Question implements Parcelable {
     private String option1;
     private String option2;
     private String option3;
+    private String option4;
     private int answerNr;
 
-    public Question() {}
+    public Question() {
+    }
 
-    public Question(String question, String option1, String option2, String option3, int answerNr) {
+    public Question(String question, String option1, String option2, String option3, String option4, int answerNr) {
         this.question = question;
         this.option1 = option1;
         this.option2 = option2;
         this.option3 = option3;
+        this.option4 = option4;
         this.answerNr = answerNr;
     }
 
@@ -25,6 +28,7 @@ public class Question implements Parcelable {
         option1 = in.readString();
         option2 = in.readString();
         option3 = in.readString();
+        option4 = in.readString();
         answerNr = in.readInt();
     }
 
@@ -34,6 +38,7 @@ public class Question implements Parcelable {
         dest.writeString(option1);
         dest.writeString(option2);
         dest.writeString(option3);
+        dest.writeString(option4);
         dest.writeInt(answerNr);
     }
 
@@ -92,5 +97,13 @@ public class Question implements Parcelable {
 
     public void setAnswerNr(int answerNr) {
         this.answerNr = answerNr;
+    }
+
+    public String getOption4() {
+        return option4;
+    }
+
+    public void setOption4(String option4) {
+        this.option4 = option4;
     }
 }
