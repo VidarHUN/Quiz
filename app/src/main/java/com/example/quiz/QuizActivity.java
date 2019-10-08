@@ -64,6 +64,9 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        /**
+         * Grafikai elemek létrehozása
+         */
         textViewQuestion = findViewById(R.id.text_view_question);
         textViewScore = findViewById(R.id.text_view_score);
         textViewQuestionCount = findViewById(R.id.text_view_question_count);
@@ -82,8 +85,10 @@ public class QuizActivity extends AppCompatActivity {
             QuizDbHelper dbHelper = new QuizDbHelper(this);
             questionList = dbHelper.getAllquestions();
 
-            questionCountTotal = questionList.size();
             Collections.shuffle(questionList);
+
+            questionList = new ArrayList<Question>(questionList.subList(0, 10));
+            questionCountTotal = questionList.size();
 
             showNextQuestion();
         } else {

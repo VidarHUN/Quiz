@@ -2,11 +2,21 @@ package com.example.quiz;
 
 import android.provider.BaseColumns;
 
-public final class QuizContract {
+/**
+ * Az SQLite műveletekhez kell.
+ */
 
+public final class QuizContract {
+    /**
+     * Konstruktor
+     */
     private QuizContract() {
     }
 
+    /**
+     * A konstans változók könnyebb eléréséhez
+     * A BaseColums-ra az _ID, miatt van szükség, mert automatikusan ikrementálódik
+     */
     public static class QuestionsTable implements BaseColumns {
         public static final String TABLE_NAME = "quiz_questions";
         public static final String COLUMN_QUESTION = "question";

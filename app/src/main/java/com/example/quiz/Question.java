@@ -3,7 +3,15 @@ package com.example.quiz;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Kérdések metaosztálya
+ */
+
 public class Question implements Parcelable {
+    /**
+     * Kérdésekről tárolt informácó
+     * Kérdés, válasszok, helyes válasz
+     */
     private String question;
     private String option1;
     private String option2;
@@ -11,9 +19,22 @@ public class Question implements Parcelable {
     private String option4;
     private int answerNr;
 
+    /**
+     * Biztonság kedvéért egy üres konstruktor
+     */
     public Question() {
     }
 
+    /**
+     * Konstruktor
+     *
+     * @param question
+     * @param option1
+     * @param option2
+     * @param option3
+     * @param option4
+     * @param answerNr
+     */
     public Question(String question, String option1, String option2, String option3, String option4, int answerNr) {
         this.question = question;
         this.option1 = option1;
@@ -23,6 +44,11 @@ public class Question implements Parcelable {
         this.answerNr = answerNr;
     }
 
+    /**
+     * Parcelable interfész, miatt kell implementálni
+     *
+     * @param in
+     */
     protected Question(Parcel in) {
         question = in.readString();
         option1 = in.readString();
@@ -32,6 +58,12 @@ public class Question implements Parcelable {
         answerNr = in.readInt();
     }
 
+    /**
+     * Parcelable interfész, miatt kell implementálni
+     *
+     * @param dest
+     * @param flags
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(question);
@@ -42,6 +74,11 @@ public class Question implements Parcelable {
         dest.writeInt(answerNr);
     }
 
+    /**
+     * Parcelable interfész, miatt kell implementálni
+     *
+     * @return
+     */
     @Override
     public int describeContents() {
         return 0;
@@ -58,6 +95,10 @@ public class Question implements Parcelable {
             return new Question[size];
         }
     };
+
+    /**
+     * Setters and Getters
+     */
 
     public String getQuestion() {
         return question;

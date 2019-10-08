@@ -12,30 +12,49 @@ import com.example.quiz.QuizContract.*;
 import androidx.annotation.Nullable;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.Buffer;
 import java.util.ArrayList;
 
+/**
+ * Tényleges SQLiite adatbázis létrehozása
+ */
 public class QuizDbHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "MyAwesomeQuiz.db";
+    /**
+     * Adatbázis neve és verziója.
+     * Kellenek, hogy a konstruktor superje is jól tudjon működni.
+     */
+    private static final String DATABASE_NAME = "database.db";
     private static final int DATABASE_VERSION = 1;
 
+    /**
+     * Adatbázis változója
+     */
     private SQLiteDatabase db;
     private Context context;
 
+    /**
+     * Konstruktor
+     *
+     * @param context
+     */
     public QuizDbHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
 
+    /**
+     * Itt férünk hozzá elsőnek az adatbázishoz
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         this.db = db;
 
+        /**
+         * Tábla megalkotására szánt SQL parancs
+         */
         final String SQL_CREATE_QUESTIONS_TABLE = "CREATE TABLE " +
                 QuestionsTable.TABLE_NAME + " ( " +
                 QuestionsTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -47,18 +66,43 @@ public class QuizDbHelper extends SQLiteOpenHelper {
                 QuestionsTable.COLUMN_ANSWER_NR + " INTEGER" +
                 ")";
 
+        /**
+         * SQL kód futtatása
+         */
         db.execSQL(SQL_CREATE_QUESTIONS_TABLE);
+
+        /**
+         * Tábla feltöltése
+         */
         fillQuestionTable();
     }
 
+    /**
+     * Ha a későbbiekben változtatni kell a táblán, valamiért, akkor ezt kell meghívni.
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        /**
+         * Tábla törlése
+         */
         db.execSQL("DROP TABLE IF EXISTS " + QuestionsTable.TABLE_NAME);
+        /**
+         * Tábla újramegalkotása
+         */
         onCreate(db);
     }
 
+    /**
+     * Tábla feltöltése adatokkal
+     */
     private void fillQuestionTable() {
         String[] arr;
+        /**
+         * Adatbeolvasás és megfelelően szeparálva feltölteni kérdésekkel.
+         */
         AssetManager am = context.getAssets();
         try {
             InputStream is = am.open("questions.csv");
@@ -75,6 +119,10 @@ public class QuizDbHelper extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * Sorok tényleges beszúrására használatos függvény.
+     * @param question
+     */
     private void addQuestion(Question question) {
         ContentValues cv = new ContentValues();
         cv.put(QuestionsTable.COLUMN_QUESTION, question.getQuestion());
@@ -86,6 +134,10 @@ public class QuizDbHelper extends SQLiteOpenHelper {
         db.insert(QuestionsTable.TABLE_NAME, null, cv);
     }
 
+    /**
+     * Adatok kinyerése
+     * @return
+     */
     public ArrayList<Question> getAllquestions() {
         ArrayList<Question> questionList = new ArrayList<>();
         db = getReadableDatabase();

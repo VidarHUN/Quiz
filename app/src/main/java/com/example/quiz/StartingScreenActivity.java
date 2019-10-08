@@ -30,6 +30,9 @@ public class StartingScreenActivity extends AppCompatActivity {
 
         loadHighscore();
 
+        /**
+         * Kezdő gomb létrehozása és játékindítás listener beállítása
+         */
         Button buttonStartQuiz = findViewById(R.id.button_start_quiz);
         buttonStartQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +42,9 @@ public class StartingScreenActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Ezzel váltunk a már rendes játékra Intenttel
+     */
     private void startQuiz() {
         Intent intent = new Intent(StartingScreenActivity.this, QuizActivity.class);
         startActivityForResult(intent, REQUEST_CODE_QUIZ);
