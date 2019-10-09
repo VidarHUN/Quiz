@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+    android:background="@drawable/bgapp"
     tools:context=".QuizActivity">
 
     <TextView
@@ -12,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Score: 0"
+        android:fontFamily="@font/fredokane_regular"
         android:textColor="@android:color/black"
         android:freezesText="true" />
 
@@ -22,6 +24,7 @@
         android:layout_below="@+id/text_view_score"
         android:text="Question: 1/x"
         android:textColor="@android:color/black"
+        android:fontFamily="@font/fredokane_regular"
         android:freezesText="true" />
 
     <TextView
@@ -33,6 +36,7 @@
         android:text="00:30"
         android:textColor="@android:color/black"
         android:textSize="40sp"
+        android:fontFamily="@font/fredokane_regular"
         android:freezesText="true" />
 
 
@@ -46,6 +50,7 @@
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="20sp"
+        android:fontFamily="@font/fredokane_regular"
         android:freezesText="true" />
 
 
@@ -67,7 +72,7 @@
             android:layout_height="wrap_content"
             android:text="Option 1"
             android:gravity="center"
-            android:fontFamily="@font/robotoregular"
+            android:fontFamily="@font/fredokane_regular"
             android:button="@android:color/transparent"
             android:background="@drawable/radio_flat_selector"
             android:paddingLeft="16dp"
@@ -85,7 +90,7 @@
             android:layout_height="wrap_content"
             android:text="Option 2"
             android:gravity="center"
-            android:fontFamily="@font/robotoregular"
+            android:fontFamily="@font/fredokane_regular"
             android:background="@drawable/radio_flat_selector"
             android:button="@android:color/transparent"
             android:paddingLeft="16dp"
@@ -103,7 +108,7 @@
             android:layout_height="wrap_content"
             android:text="Option 3"
             android:gravity="center"
-            android:fontFamily="@font/robotoregular"
+            android:fontFamily="@font/fredokane_regular"
             android:background="@drawable/radio_flat_selector"
             android:button="@android:color/transparent"
             android:paddingLeft="16dp"
@@ -121,7 +126,7 @@
             android:layout_height="wrap_content"
             android:text="Option 4"
             android:gravity="center"
-            android:fontFamily="@font/robotoregular"
+            android:fontFamily="@font/fredokane_regular"
             android:background="@drawable/radio_flat_selector"
             android:button="@android:color/transparent"
             android:paddingLeft="16dp"
@@ -143,6 +148,7 @@
         android:layout_below="@+id/radio_group"
         android:layout_marginTop="16dp"
         android:text="Confirm"
+        android:fontFamily="@font/fredokane_regular"
         android:freezesText="true" />
 
 </RelativeLayout>
