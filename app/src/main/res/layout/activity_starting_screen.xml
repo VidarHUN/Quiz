@@ -8,16 +8,24 @@
     android:background="@drawable/bgapp"
     tools:context=".StartingScreenActivity">
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:text="Log out"
+        android:fontFamily="@font/fredokane_regular"
+        android:layout_alignParentRight="true" />
+
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Awesome Quiz"
         android:textColor="@android:color/black"
         android:textSize="35sp"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/fredokane_regular"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="60dp" />
 
     <ImageView
         android:id="@+id/logo"

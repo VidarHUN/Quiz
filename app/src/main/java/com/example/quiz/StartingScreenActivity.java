@@ -1,5 +1,6 @@
 package com.example.quiz;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +10,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class StartingScreenActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_QUIZ = 1;
@@ -17,8 +27,13 @@ public class StartingScreenActivity extends AppCompatActivity {
     public static final String KEY_HIGHSCORE = "keyHighscore";
 
     private TextView textViewHighscore;
+    private TextView textViewTitle;
 
     private int highscore;
+
+    private DatabaseReference database;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +41,31 @@ public class StartingScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_starting_screen);
 
         textViewHighscore = findViewById(R.id.text_view_highscore);
+        textViewTitle = findViewById(R.id.title);
 
         loadHighscore();
+
+        /**
+         * Név lekérése
+         */
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true); //Kicsi gyorsaság miatt kell
+        database = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
+        database.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String key = dataSnapshot.getKey();
+                if (key.equals(user.getUid())) {
+                    name = dataSnapshot.child("name").getValue().toString();
+                    textViewTitle.setText("Welcome, " + name);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
         /**
          * Kezdő gomb létrehozása és játékindítás listener beállítása
@@ -37,6 +75,21 @@ public class StartingScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startQuiz();
+            }
+        });
+
+        /**
+         * Kijelentkezés
+         */
+        Button buttonLogout = findViewById(R.id.logout);
+        buttonLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(StartingScreenActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                return;
             }
         });
     }
@@ -78,4 +131,5 @@ public class StartingScreenActivity extends AppCompatActivity {
         editor.putInt(KEY_HIGHSCORE, highscore);
         editor.apply();
     }
+
 }

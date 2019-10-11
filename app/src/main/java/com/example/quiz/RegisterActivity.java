@@ -18,9 +18,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class RegisterActivity extends AppCompatActivity {
     private TextInputEditText editTextNicname;
     private TextInputEditText editTextEmail;
@@ -68,6 +65,7 @@ public class RegisterActivity extends AppCompatActivity {
                 final String email = editTextEmail.getText().toString();
                 final String password = editTextPassword.getText().toString();
                 final String name = editTextNicname.getText().toString();
+
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -75,10 +73,8 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, "sign up error", Toast.LENGTH_SHORT).show();
                         } else {
                             String userId = mAuth.getCurrentUser().getUid();
-                            DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
-                            Map userInfo = new HashMap<>();
-                            userInfo.put("name", name);
-                            currentUserDb.updateChildren(userInfo);
+                            DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("name");
+                            currentUserDb.setValue(name);
                         }
                     }
                 });
