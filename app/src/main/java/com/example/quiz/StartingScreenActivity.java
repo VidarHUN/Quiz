@@ -5,12 +5,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,16 +21,14 @@ import com.google.firebase.database.ValueEventListener;
 public class StartingScreenActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_QUIZ = 1;
 
-    public static final String SHARED_PREFS = "sharedPrefs";
-    public static final String KEY_HIGHSCORE = "keyHighscore";
-
-    private TextView textViewHighscore;
+    private TextView textViewScore;
     private TextView textViewTitle;
 
-    private int highscore;
+    private int score;
 
     private DatabaseReference database;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseAuth mAuth;
     private String name;
 
     @Override
@@ -40,32 +36,14 @@ public class StartingScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_starting_screen);
 
-        textViewHighscore = findViewById(R.id.text_view_highscore);
+        textViewScore = findViewById(R.id.text_view_score);
         textViewTitle = findViewById(R.id.title);
 
-        loadHighscore();
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true); //Kicsi gyorsaság miatt kell
 
-        /**
-         * Név lekérése
-         */
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true); //Kicsi gyorsaság miatt kell
-        database = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
-        database.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String key = dataSnapshot.getKey();
-                if (key.equals(user.getUid())) {
-                    name = dataSnapshot.child("name").getValue().toString();
-                    textViewTitle.setText("Welcome, " + name);
-                }
-            }
+        loadScore();
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
+        nameFromDatabase();
 
         /**
          * Kezdő gomb létrehozása és játékindítás listener beállítása
@@ -92,6 +70,17 @@ public class StartingScreenActivity extends AppCompatActivity {
                 return;
             }
         });
+
+        Button buttonLeaderboard = findViewById(R.id.leaderboard);
+        buttonLeaderboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StartingScreenActivity.this, LeaderboardActivity.class);
+                startActivity(intent);
+                finish();
+                return;
+            }
+        });
     }
 
     /**
@@ -102,6 +91,13 @@ public class StartingScreenActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CODE_QUIZ);
     }
 
+    /**
+     * Pontszám frissítése
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -109,27 +105,66 @@ public class StartingScreenActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_QUIZ) {
             if (resultCode == RESULT_OK) {
                 int score = data.getIntExtra(QuizActivity.EXTRA_SCORE, 0);
-                if (score > highscore) {
-                    updateHighscore(score);
-                }
+                updateScore(score);
             }
         }
     }
 
-    private void loadHighscore() {
-        SharedPreferences prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        highscore = prefs.getInt(KEY_HIGHSCORE, 0);
-        textViewHighscore.setText("Highscore: " + highscore);
+    /**
+     * Pontszám betöltésére szolgál
+     */
+    private void loadScore() {
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true); //Kicsi gyorsaság miatt kell
+        database = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
+        database.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String key = dataSnapshot.getKey();
+                if (key.equals(user.getUid())) {
+                    score = Integer.parseInt(dataSnapshot.child("score").getValue().toString());
+                    textViewScore.setText("Score: " + score);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
-    private void updateHighscore(int highscoreNew) {
-        highscore = highscoreNew;
-        textViewHighscore.setText("Highscore: " + highscore);
+    /**
+     * Frissíti a kiírandó pontszámot
+     *
+     * @param scoreNew
+     */
+    private void updateScore(int scoreNew) {
+        score += scoreNew;
+        textViewScore.setText("Score: " + score);
 
-        SharedPreferences prefs = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt(KEY_HIGHSCORE, highscore);
-        editor.apply();
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
+        database.child("score").setValue(score);
+    }
+
+    /**
+     * Név lekérése és felhasználó üdvözlése
+     */
+    private void nameFromDatabase() {
+        database = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
+        database.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String key = dataSnapshot.getKey();
+                if (key.equals(user.getUid())) {
+                    name = dataSnapshot.child("name").getValue().toString();
+                    textViewTitle.setText("Welcome, " + name);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
 }

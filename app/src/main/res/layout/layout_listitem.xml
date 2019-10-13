@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:id="@+id/recycle_parent">
+
+    <TextView
+        android:id="@+id/leader_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Valami"
+        android:layout_alignParentLeft="true"
+        android:textSize="28sp"
+        android:textColor="@android:color/black"
+        android:fontFamily="@font/fredokane_regular"
+        android:paddingRight="60dp" />
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10"
+        android:textColor="@android:color/black"
+        android:textSize="28sp"
+        android:fontFamily="@font/fredokane_regular"
+        android:layout_alignParentRight="true" />
+
+</RelativeLayout>

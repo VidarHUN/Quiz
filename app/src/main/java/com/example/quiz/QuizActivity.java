@@ -221,7 +221,7 @@ public class QuizActivity extends AppCompatActivity {
                 break;
             case 4:
                 rb4.setTextColor(Color.GREEN);
-                textViewQuestion.setText("Answer 3 is correct");
+                textViewQuestion.setText("Answer 4 is correct");
                 break;
         }
 
