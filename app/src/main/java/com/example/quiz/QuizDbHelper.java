@@ -20,7 +20,7 @@ import java.util.ArrayList;
 /**
  * Tényleges SQLiite adatbázis létrehozása
  */
-public class QuizDbHelper extends SQLiteOpenHelper {
+class QuizDbHelper extends SQLiteOpenHelper {
     /**
      * Adatbázis neve és verziója.
      * Kellenek, hogy a konstruktor superje is jól tudjon működni.
@@ -32,7 +32,7 @@ public class QuizDbHelper extends SQLiteOpenHelper {
      * Adatbázis változója
      */
     private SQLiteDatabase db;
-    private Context context;
+    private final Context context;
 
     /**
      * Konstruktor

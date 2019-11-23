@@ -152,6 +152,9 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Visszaszámlálás implemetálása
+     */
     private void startCountDown() {
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
@@ -169,6 +172,9 @@ public class QuizActivity extends AppCompatActivity {
         }.start();
     }
 
+    /**
+     * Itt jelenítem meg a visszaszámlálandó szöveget
+     */
     private void updateCountDownText() {
         int minutes = (int) (timeLeftInMillis / 1000) / 60;
         int seconds = (int) (timeLeftInMillis / 1000) % 60;
@@ -184,6 +190,9 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Helyes válasz ellenőrzése
+     */
     private void checkAnswer() {
         answered = true;
 
@@ -200,6 +209,9 @@ public class QuizActivity extends AppCompatActivity {
         showSolution();
     }
 
+    /**
+     * Kijelzi a helyes a helyes válasz számát
+     */
     private void showSolution() {
         rb1.setTextColor(Color.RED);
         rb2.setTextColor(Color.RED);
@@ -232,6 +244,9 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Quiz befejezése
+     */
     private void finishQuiz() {
         Intent resultIntent = new Intent();
         resultIntent.putExtra(EXTRA_SCORE, score);

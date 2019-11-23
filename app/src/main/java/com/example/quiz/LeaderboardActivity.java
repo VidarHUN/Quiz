@@ -27,12 +27,11 @@ import java.util.List;
 import java.util.Map;
 
 public class LeaderboardActivity extends AppCompatActivity {
-    private ArrayList<String> mName = new ArrayList<>();
-    private ArrayList<String> mScore = new ArrayList<>();
-    private DatabaseReference database;
-    String name;
-    String score;
-    private Map<String, Integer> rows = new HashMap<String, Integer>();
+    private final ArrayList<String> mName = new ArrayList<>();
+    private final ArrayList<String> mScore = new ArrayList<>();
+    private String name;
+    private String score;
+    private final Map<String, Integer> rows = new HashMap<String, Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +56,7 @@ public class LeaderboardActivity extends AppCompatActivity {
      * Felhasználónév és pontok lekérése
      */
     private void fillLists() {
-        database = FirebaseDatabase.getInstance().getReference().child("Users");
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("Users");
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -66,7 +65,7 @@ public class LeaderboardActivity extends AppCompatActivity {
                     score = ds.child("score").getValue().toString();
                     rows.put(name, Integer.parseInt(score));
                 }
-                Map<String, Integer> sortedRows = sortByComparator(rows, false);
+                Map<String, Integer> sortedRows = sortByComparator(rows);
 
                 Iterator it = sortedRows.entrySet().iterator();
                 while (it.hasNext()) {
@@ -99,20 +98,15 @@ public class LeaderboardActivity extends AppCompatActivity {
      * Egy adott Map-et képes sorbarendezni
      *
      * @param unsortMap
-     * @param order
      * @return
      */
-    private static Map<String, Integer> sortByComparator(Map<String, Integer> unsortMap, final boolean order) {
+    private static Map<String, Integer> sortByComparator(Map<String, Integer> unsortMap) {
         List<Map.Entry<String, Integer>> list = new LinkedList<Map.Entry<String, Integer>>(unsortMap.entrySet());
         // Sorting the list based on values
         Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
             public int compare(Map.Entry<String, Integer> o1,
                                Map.Entry<String, Integer> o2) {
-                if (order) {
-                    return o1.getValue().compareTo(o2.getValue());
-                } else {
                     return o2.getValue().compareTo(o1.getValue());
-                }
             }
         });
 

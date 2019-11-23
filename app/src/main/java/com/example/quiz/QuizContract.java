@@ -6,7 +6,7 @@ import android.provider.BaseColumns;
  * Az SQLite műveletekhez kell.
  */
 
-public final class QuizContract {
+final class QuizContract {
     /**
      * Konstruktor
      */

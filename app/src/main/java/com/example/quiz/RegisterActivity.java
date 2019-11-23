@@ -23,9 +23,6 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextPassword;
 
-    private Button registerButton;
-    private Button backButton;
-
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthStateListener;
 
@@ -58,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         /**
          * Beregisztrálás
          */
-        registerButton = findViewById(R.id.register_button_on_register);
+        Button registerButton = findViewById(R.id.register_button_on_register);
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,7 +83,7 @@ public class RegisterActivity extends AppCompatActivity {
         /**
          * Visszalépő gomb
          */
-        backButton = findViewById(R.id.back_button);
+        Button backButton = findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

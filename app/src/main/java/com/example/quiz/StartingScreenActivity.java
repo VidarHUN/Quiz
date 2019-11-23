@@ -27,8 +27,7 @@ public class StartingScreenActivity extends AppCompatActivity {
     private int score;
 
     private DatabaseReference database;
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private FirebaseAuth mAuth;
+    private final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String name;
 
     @Override
@@ -141,7 +140,7 @@ public class StartingScreenActivity extends AppCompatActivity {
         score += scoreNew;
         textViewScore.setText("Score: " + score);
 
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
         database.child("score").setValue(score);
     }

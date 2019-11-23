@@ -24,8 +24,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText editTextEmail;
     private TextInputEditText editTextPassword;
-    private Button buttonLogin;
-    private Button buttonRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         /**
          * Ha már bejelentkezett valaki, akkor itt lép át a kezdőoldalra
          */
-        buttonLogin = findViewById(R.id.login_button);
+        Button buttonLogin = findViewById(R.id.login_button);
 
         editTextEmail = findViewById(R.id.email_address);
         editTextPassword = findViewById(R.id.password);
@@ -76,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         /**
          * Ha valaki még nem regisztrált, akkor ez dobja át arra az oldalra.
          */
-        buttonRegister = findViewById(R.id.register_button);
+        Button buttonRegister = findViewById(R.id.register_button);
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

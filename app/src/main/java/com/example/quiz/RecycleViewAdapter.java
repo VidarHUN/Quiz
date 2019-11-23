@@ -12,23 +12,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+/**
+ * A recycleViewAdapter implementálása
+ */
 public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.ViewHolder> {
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mScores = new ArrayList<>();
-    private Context mContext;
 
+    /**
+     * Konstruktor
+     *
+     * @param mNames
+     * @param mScores
+     * @param mContext
+     */
     public RecycleViewAdapter(ArrayList<String> mNames, ArrayList<String> mScores, Context mContext) {
         this.mNames = mNames;
         this.mScores = mScores;
-        this.mContext = mContext;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_listitem, parent, false);
-        ViewHolder holder = new ViewHolder(view);
-        return holder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -43,11 +50,11 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView name;
-        TextView score;
-        RelativeLayout recycleParent;
+        final TextView name;
+        final TextView score;
+        final RelativeLayout recycleParent;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.leader_name);

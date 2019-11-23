@@ -49,7 +49,7 @@ public class Question implements Parcelable {
      *
      * @param in
      */
-    protected Question(Parcel in) {
+    private Question(Parcel in) {
         question = in.readString();
         option1 = in.readString();
         option2 = in.readString();
